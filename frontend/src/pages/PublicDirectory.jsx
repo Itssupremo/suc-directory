@@ -35,10 +35,10 @@ function PublicDirectory() {
   const filtered = sucs.filter((suc) => {
     const q = search.toLowerCase();
     const matchesSearch = !q ||
-      suc.sucName.toLowerCase().includes(q) ||
-      suc.address.toLowerCase().includes(q) ||
-      suc.president.toLowerCase().includes(q) ||
-      suc.region.toLowerCase().includes(q);
+      suc.sucName?.toLowerCase().includes(q) ||
+      suc.address?.toLowerCase().includes(q) ||
+      suc.president?.toLowerCase().includes(q) ||
+      suc.region?.toLowerCase().includes(q);
     const matchesOfficial = !official || suc.occCode === official;
     return matchesSearch && matchesOfficial;
   });

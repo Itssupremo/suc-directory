@@ -8,7 +8,9 @@ module.exports = async (req, res) => {
     console.error('DB connection error:', err.message);
     return res.status(500).json({ message: 'Database connection failed', error: err.message });
   }
-  // Vercel rewrites /api/xxx to /api, but req.url still has the full path
-  // Express needs to see the full /api/xxx path to match routes
+  // Ensure Express sees the full original URL path
+  if (!req.url.startsWith('/api')) {
+    req.url = '/api' + req.url;
+  }
   return app(req, res);
 };

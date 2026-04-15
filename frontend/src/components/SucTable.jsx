@@ -58,9 +58,6 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
     setShowPrintOpts(false);
   };
 
-  // Visible columns for screen (no OCC, no Section)
-  const screenCols = ALL_COLUMNS;
-
   return (
     <div>
       {/* Toolbar: search, filter, print */}

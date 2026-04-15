@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import * as XLSX from 'xlsx';
 
 const ALL_COLUMNS = [
   { key: 'region', label: 'Region' },
@@ -24,6 +25,14 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
   const handlePrint = () => {
     const table = printRef.current;
     if (!table) return;
+    // Build filter subtitle
+    const filterParts = [];
+    if (officialFilter && officials) {
+      const off = officials.find((o) => o.code === officialFilter);
+      if (off) filterParts.push(off.name);
+    }
+    const filterSubtitle = filterParts.length > 0 ? `<p style="font-size:0.9rem;margin:4px 0 0;font-weight:600">${filterParts.join(' | ')}</p>` : '';
+
     const printWindow = window.open('', '_blank');
     printWindow.document.write(`
       <html><head><title>SUC Directory</title>
@@ -44,6 +53,7 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
         <img src="/ched-bp-logo.png" alt="CHED"/>
         <h4>Commission on Higher Education</h4>
         <p>SUC Directory Management System</p>
+        ${filterSubtitle}
       </div>
       <table class="table table-bordered table-sm">
         <thead><tr><th>#</th>${printCols.map((k) => `<th>${ALL_COLUMNS.find((c) => c.key === k)?.label || k}</th>`).join('')}</tr></thead>
@@ -56,6 +66,27 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
     printWindow.focus();
     setTimeout(() => { printWindow.print(); }, 400);
     setShowPrintOpts(false);
+  };
+
+  const handleDownloadExcel = () => {
+    const data = sucs.map((suc, idx) => {
+      const row = { '#': idx + 1 };
+      printCols.forEach((k) => {
+        const col = ALL_COLUMNS.find((c) => c.key === k);
+        if (k === 'sucName') {
+          row['SUC Name'] = suc.sucName || '';
+          row['Abbreviation'] = suc.abbreviation || '';
+          row['Address'] = suc.address || '';
+        } else {
+          row[col?.label || k] = suc[k] || '';
+        }
+      });
+      return row;
+    });
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'SUC Directory');
+    XLSX.writeFile(wb, 'SUC_Directory.xlsx');
   };
 
   return (
@@ -82,7 +113,10 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
               <option key={o.code} value={o.code}>{o.name}</option>
             ))}
           </select>
-          <div className="ms-auto position-relative">
+          <div className="ms-auto d-flex gap-2 position-relative">
+            <button className="btn btn-sm btn-outline-success" onClick={handleDownloadExcel}>
+              <i className="bi bi-file-earmark-excel me-1"></i>Excel
+            </button>
             <button className="btn btn-sm btn-outline-secondary" onClick={() => setShowPrintOpts(!showPrintOpts)}>
               <i className="bi bi-printer me-1"></i>Print
             </button>

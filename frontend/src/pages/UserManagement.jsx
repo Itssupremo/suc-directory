@@ -127,12 +127,12 @@ function UserManagement() {
                     <tr key={u._id}>
                       <td>{idx + 1}</td>
                       <td>
-                        <i className={`bi ${u.role === 'admin' ? 'bi-shield-check text-primary' : 'bi-person'} me-1`}></i>
+                        <i className={`bi ${u.role === 'superadmin' ? 'bi-shield-lock text-danger' : u.role === 'admin' ? 'bi-shield-check text-primary' : 'bi-person'} me-1`}></i>
                         {u.fullname}
                       </td>
                       <td><code>{u.username}</code></td>
                       <td>
-                        <span className={`badge ${u.role === 'admin' ? 'bg-danger' : 'bg-info'}`}>
+                        <span className={`badge ${u.role === 'superadmin' ? 'bg-danger' : u.role === 'admin' ? 'bg-warning text-dark' : 'bg-info'}`}>
                           {u.role}
                         </span>
                       </td>
@@ -195,8 +195,9 @@ function UserManagement() {
                       <label className="form-label fw-semibold">Role</label>
                       <select className="form-select" value={form.role}
                         onChange={(e) => setForm({ ...form, role: e.target.value })}>
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
+                        <option value="user">User (SUC)</option>
+                        <option value="admin">Admin (Chairperson/Commissioner)</option>
+                        <option value="superadmin">Superadmin</option>
                       </select>
                     </div>
                     <div className="col-md-6">

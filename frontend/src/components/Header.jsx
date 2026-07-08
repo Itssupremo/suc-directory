@@ -15,19 +15,21 @@ function Header({ user, onLogout }) {
     <header className="ocdra-header">
       <div className="container-fluid px-4 d-flex align-items-center justify-content-between">
         <div className="d-flex align-items-center gap-3">
-          <Link to="/" className="header-brand d-flex align-items-center text-decoration-none">
+          <Link to={user ? (user.role === 'superadmin' ? '/directory' : '/my-suc') : '/'} className="header-brand d-flex align-items-center text-decoration-none">
             <img src="/ched-logo.png" alt="CHED" className="header-logo" />
           </Link>
           <nav className="d-none d-md-flex align-items-center gap-1">
             {!user && <Link className={isActive('/')} to="/">HOME</Link>}
-            {user && user.role === 'admin' && (
+            {user && (
               <>
-                <Link className={isActive('/admin')} to="/admin">SUC DIRECTORY</Link>
-                <Link className={isActive('/admin/users')} to="/admin/users">USER MANAGEMENT</Link>
+                <Link className={isActive('/directory')} to="/directory">SUC DIRECTORY</Link>
+                {(user.role === 'admin' || user.role === 'user') && (
+                  <Link className={isActive('/my-suc')} to="/my-suc">MY SUC</Link>
+                )}
+                {user.role === 'superadmin' && (
+                  <Link className={isActive('/admin/users')} to="/admin/users">USER MANAGEMENT</Link>
+                )}
               </>
-            )}
-            {user && user.role === 'user' && (
-              <Link className={isActive('/dashboard')} to="/dashboard">DASHBOARD</Link>
             )}
           </nav>
         </div>
@@ -60,14 +62,16 @@ function Header({ user, onLogout }) {
       <div className={`container${mobileOpen ? '' : ' collapse'}`} id="mobileNav">
         <div className="mobile-nav pb-2">
           {!user && <Link className="mobile-nav-link" to="/">HOME</Link>}
-          {user && user.role === 'admin' && (
+          {user && (
             <>
-              <Link className="mobile-nav-link" to="/admin">SUC DIRECTORY</Link>
-              <Link className="mobile-nav-link" to="/admin/users">USER MANAGEMENT</Link>
+              <Link className="mobile-nav-link" to="/directory">SUC DIRECTORY</Link>
+              {(user.role === 'admin' || user.role === 'user') && (
+                <Link className="mobile-nav-link" to="/my-suc">MY SUC</Link>
+              )}
+              {user.role === 'superadmin' && (
+                <Link className="mobile-nav-link" to="/admin/users">USER MANAGEMENT</Link>
+              )}
             </>
-          )}
-          {user && user.role === 'user' && (
-            <Link className="mobile-nav-link" to="/dashboard">DASHBOARD</Link>
           )}
         </div>
       </div>

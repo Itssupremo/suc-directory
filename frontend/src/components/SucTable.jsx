@@ -13,13 +13,43 @@ const ALL_COLUMNS = [
   { key: 'chedOfficial', label: 'CHED Official' },
 ];
 
-function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isAdmin = false, search, onSearchChange, officialFilter, onOfficialFilterChange, officials }) {
+function SucTable({ sucs, onEdit, onDelete, onTransfer, onView, showActions = false, isAdmin = false, search, onSearchChange, officialFilter, onOfficialFilterChange, officials }) {
   const printRef = useRef();
   const [showPrintOpts, setShowPrintOpts] = useState(false);
   const [printCols, setPrintCols] = useState(() => ALL_COLUMNS.map((c) => c.key));
+  const [toastMsg, setToastMsg] = useState(null);
 
   const togglePrintCol = (key) => {
     setPrintCols((prev) => prev.includes(key) ? prev.filter((k) => k !== key) : [...prev, key]);
+  };
+
+  const triggerToast = (msg) => {
+    setToastMsg(msg);
+    setTimeout(() => setToastMsg(null), 2000);
+  };
+
+  const handleCopyText = (text, label) => {
+    if (!text) return;
+    navigator.clipboard.writeText(text);
+    triggerToast(`Copied ${label} to clipboard!`);
+  };
+
+  const getCompleteness = (suc) => {
+    const fields = [
+      suc.president,
+      suc.email,
+      suc.contact,
+      suc.boardSecretaryName,
+      suc.boardSecretaryEmail,
+      suc.boardSecretaryContact,
+      suc.address
+    ];
+    const filled = fields.filter(f => f && String(f).trim() !== '').length;
+    const percentage = Math.round((filled / fields.length) * 100);
+    return {
+      percentage,
+      isComplete: percentage === 100
+    };
   };
 
   const handlePrint = () => {
@@ -197,21 +227,77 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
                   <td className="px-3 fw-bold text-muted">{idx + 1}</td>
                   <td className="px-3"><span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-2 py-1">{suc.region}</span></td>
                   <td className="px-3">
-                    <strong className="text-dark">{suc.sucName}</strong>
-                    {suc.abbreviation && <span className="badge bg-primary bg-opacity-10 text-primary ms-2">{suc.abbreviation}</span>}
+                    <div className="d-flex align-items-center flex-wrap gap-2">
+                      <strong className="text-dark">{suc.sucName}</strong>
+                      {suc.abbreviation && <span className="badge bg-primary bg-opacity-10 text-primary">{suc.abbreviation}</span>}
+                      {(() => {
+                        const { percentage, isComplete } = getCompleteness(suc);
+                        return (
+                          <span 
+                            className={`completeness-badge ${isComplete ? 'complete' : 'incomplete'}`} 
+                            title={`Profile is ${percentage}% complete`}
+                            style={{ fontSize: '0.65rem', padding: '2px 8px' }}
+                          >
+                            <i className={`bi ${isComplete ? 'bi-check-circle-fill' : 'bi-exclamation-triangle-fill'}`}></i>
+                            {percentage}%
+                          </span>
+                        );
+                      })()}
+                    </div>
                     {suc.address && <div className="text-muted small mt-1"><i className="bi bi-geo-alt me-1"></i>{suc.address}</div>}
                   </td>
                   <td className="px-3 fw-medium">{suc.president || '—'}</td>
                   {showActions && (
                     <>
-                      <td className="small px-2 text-wrap" style={{ maxWidth: '140px' }}>{suc.email || '—'}</td>
-                      <td className="small px-2">{suc.contact || '—'}</td>
+                      <td className="small px-2 text-wrap" style={{ maxWidth: '140px' }}>
+                        {suc.email ? (
+                          <div className="d-flex align-items-center justify-content-between gap-1">
+                            <span className="text-truncate" title={suc.email}>{suc.email}</span>
+                            <button className="copy-btn" onClick={() => handleCopyText(suc.email, 'Email')} title="Copy Email">
+                              <i className="bi bi-clipboard"></i>
+                            </button>
+                          </div>
+                        ) : '—'}
+                      </td>
+                      <td className="small px-2">
+                        {suc.contact ? (
+                          <div className="d-flex align-items-center justify-content-between gap-1">
+                            <span>{suc.contact}</span>
+                            <button className="copy-btn" onClick={() => handleCopyText(suc.contact, 'Contact Number')} title="Copy Contact">
+                              <i className="bi bi-clipboard"></i>
+                            </button>
+                          </div>
+                        ) : '—'}
+                      </td>
                       <td className="small px-2 fw-medium">{suc.boardSecretaryName || '—'}</td>
-                      <td className="small px-2 text-wrap" style={{ maxWidth: '140px' }}>{suc.boardSecretaryEmail || '—'}</td>
-                      <td className="small px-2">{suc.boardSecretaryContact || '—'}</td>
+                      <td className="small px-2 text-wrap" style={{ maxWidth: '140px' }}>
+                        {suc.boardSecretaryEmail ? (
+                          <div className="d-flex align-items-center justify-content-between gap-1">
+                            <span className="text-truncate" title={suc.boardSecretaryEmail}>{suc.boardSecretaryEmail}</span>
+                            <button className="copy-btn" onClick={() => handleCopyText(suc.boardSecretaryEmail, 'Board Sec Email')} title="Copy Email">
+                              <i className="bi bi-clipboard"></i>
+                            </button>
+                          </div>
+                        ) : '—'}
+                      </td>
+                      <td className="small px-2">
+                        {suc.boardSecretaryContact ? (
+                          <div className="d-flex align-items-center justify-content-between gap-1">
+                            <span>{suc.boardSecretaryContact}</span>
+                            <button className="copy-btn" onClick={() => handleCopyText(suc.boardSecretaryContact, 'Board Sec Contact')} title="Copy Contact">
+                              <i className="bi bi-clipboard"></i>
+                            </button>
+                          </div>
+                        ) : '—'}
+                      </td>
                       <td className="small px-2 fw-bold text-primary">{suc.chedOfficial || '—'}</td>
                       <td className="px-3">
                         <div className="d-flex gap-1 justify-content-center">
+                          {onView && (
+                            <button className="btn btn-sm btn-outline-primary d-flex align-items-center justify-content-center p-2" title="Quick View" onClick={() => onView(suc)} style={{ borderRadius: '6px' }}>
+                              <i className="bi bi-eye fs-6"></i>
+                            </button>
+                          )}
                           {onEdit && (
                             <button className="btn btn-sm btn-outline-warning d-flex align-items-center justify-content-center p-2" title="Edit" onClick={() => onEdit(suc)} style={{ borderRadius: '6px' }}>
                               <i className="bi bi-pencil-square fs-6"></i>
@@ -237,6 +323,14 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
           </tbody>
         </table>
       </div>
+
+      {/* Floating Clipboard Copy Toast Notification */}
+      {toastMsg && (
+        <div className="clipboard-toast shadow-lg">
+          <i className="bi bi-clipboard-check-fill text-success fs-5"></i>
+          <span>{toastMsg}</span>
+        </div>
+      )}
     </div>
   );
 }

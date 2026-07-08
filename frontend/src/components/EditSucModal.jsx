@@ -37,17 +37,17 @@ function EditSucModal({ show, onClose, onSave, suc, allowedSections }) {
         section: suc.section || ''
       });
       // Parse contacts
-      const cList = (suc.contact || '').split(/[,\/;]+/).map(s => s.trim()).filter(Boolean);
+      const cList = String(suc.contact || '').split(/[,\/;]+/).map(s => String(s).trim()).filter(Boolean);
       setContactsList(cList.length > 0 ? cList : ['']);
 
-      const bList = (suc.boardSecretaryContact || '').split(/[,\/;]+/).map(s => s.trim()).filter(Boolean);
+      const bList = String(suc.boardSecretaryContact || '').split(/[,\/;]+/).map(s => String(s).trim()).filter(Boolean);
       setBoardSecContactsList(bList.length > 0 ? bList : ['']);
 
       // Parse emails
-      const eList = (suc.email || '').split(/[,\/;]+/).map(s => s.trim()).filter(Boolean);
+      const eList = String(suc.email || '').split(/[,\/;]+/).map(s => String(s).trim()).filter(Boolean);
       setEmailsList(eList.length > 0 ? eList : ['']);
 
-      const bEList = (suc.boardSecretaryEmail || '').split(/[,\/;]+/).map(s => s.trim()).filter(Boolean);
+      const bEList = String(suc.boardSecretaryEmail || '').split(/[,\/;]+/).map(s => String(s).trim()).filter(Boolean);
       setBoardSecEmailsList(bEList.length > 0 ? bEList : ['']);
     }
   }, [suc]);
@@ -78,7 +78,7 @@ function EditSucModal({ show, onClose, onSave, suc, allowedSections }) {
   if (!show || !suc) return null;
 
   return (
-    <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
+    <div className="modal show d-block" tabIndex="-1" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050, paddingTop: '80px' }}>
       <div className="modal-dialog modal-lg modal-dialog-scrollable">
         <div className="modal-content shadow border-0" style={{ borderRadius: '12px', overflow: 'hidden' }}>
           <div className="modal-header text-white" style={{ background: 'linear-gradient(135deg, var(--ched-navy) 0%, var(--ched-blue) 100%)', borderBottom: '3px solid var(--ched-gold)' }}>
@@ -89,7 +89,7 @@ function EditSucModal({ show, onClose, onSave, suc, allowedSections }) {
             <button type="button" className="btn-close btn-close-white" onClick={onClose}></button>
           </div>
           <form onSubmit={handleSubmit}>
-            <div className="modal-body p-4" style={{ maxHeight: 'calc(100vh - 210px)', overflowY: 'auto' }}>
+            <div className="modal-body p-4">
               {/* SECTION 1: General Info */}
               <div className="mb-4">
                 <h6 className="text-uppercase tracking-wider font-weight-bold text-primary border-bottom pb-2 mb-3" style={{ fontSize: '0.85rem', letterSpacing: '0.5px', fontWeight: 600 }}>

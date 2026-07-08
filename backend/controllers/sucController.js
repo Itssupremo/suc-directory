@@ -24,12 +24,7 @@ const sortByRegion = (sucs) => {
 // GET all SUCs (authenticated)
 exports.getAllSucs = async (req, res) => {
   try {
-    const filter = {};
-    // Non-admin users only see SUCs matching their OCC code
-    if (req.user.role === 'user' && req.user.occCode) {
-      filter.occCode = req.user.occCode;
-    }
-    const sucs = await Suc.find(filter);
+    const sucs = await Suc.find({});
     res.json(sortByRegion(sucs));
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
@@ -71,16 +66,30 @@ exports.updateSuc = async (req, res) => {
     const suc = await Suc.findById(req.params.id);
     if (!suc) return res.status(404).json({ message: 'SUC not found' });
 
-    // Users can only edit Chairperson/Commissioner sections
-    if (req.user.role === 'user') {
-      if (!['Chairperson', 'Commissioner'].includes(suc.section)) {
-        return res.status(403).json({ message: 'You can only edit Chairperson or Commissioner SUCs' });
+    // Enforce role-based write authorization
+    if (req.user.role === 'admin') {
+      // Chairperson/Commissioner: can only edit SUCs assigned to their occCode
+      if (suc.occCode !== req.user.occCode) {
+        return res.status(403).json({ message: 'Access denied: This SUC is not under your charge' });
       }
+    } else if (req.user.role === 'user') {
+      // SUC: can only edit their own SUC details
+      const matchesOwn = 
+        (suc.abbreviation && suc.abbreviation.toLowerCase() === req.user.occCode?.toLowerCase()) || 
+        (suc.sucName && suc.sucName.toLowerCase() === req.user.occCode?.toLowerCase()) ||
+        (suc.occCode && suc.occCode.toLowerCase() === req.user.occCode?.toLowerCase());
+      if (!matchesOwn) {
+        return res.status(403).json({ message: 'Access denied: You can only edit your own SUC details' });
+      }
+    } else if (req.user.role !== 'superadmin') {
+      return res.status(403).json({ message: 'Access denied' });
     }
 
     const { sucName, abbreviation, region, address, president, email, contact,
             boardSecretaryName, boardSecretaryEmail, boardSecretaryContact,
             occCode, chedOfficial, section } = req.body;
+
+    const isSuper = req.user.role === 'superadmin';
     Object.assign(suc, {
       ...(sucName && { sucName }),
       ...(abbreviation !== undefined && { abbreviation }),
@@ -92,9 +101,10 @@ exports.updateSuc = async (req, res) => {
       ...(boardSecretaryName !== undefined && { boardSecretaryName }),
       ...(boardSecretaryEmail !== undefined && { boardSecretaryEmail }),
       ...(boardSecretaryContact !== undefined && { boardSecretaryContact }),
-      ...(occCode !== undefined && { occCode }),
-      ...(chedOfficial !== undefined && { chedOfficial }),
-      ...(section && { section })
+      // Assignment variables are read-only for admins and SUC users
+      ...(isSuper && occCode !== undefined && { occCode }),
+      ...(isSuper && chedOfficial !== undefined && { chedOfficial }),
+      ...(isSuper && section && { section })
     });
     await suc.save();
     res.json(suc);

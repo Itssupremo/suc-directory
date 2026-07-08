@@ -3,8 +3,9 @@ import { useState, useEffect } from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './pages/Login';
-import AdminDashboard from './pages/AdminDashboard';
-import UserDashboard from './pages/UserDashboard';
+import SuperadminDashboard from './pages/SuperadminDashboard';
+import CommissionerDashboard from './pages/CommissionerDashboard';
+import SucDashboard from './pages/SucDashboard';
 import UserManagement from './pages/UserManagement';
 import PublicDirectory from './pages/PublicDirectory';
 import { getMe } from './services/api';
@@ -59,17 +60,23 @@ function App() {
               path="/login"
               element={
                 user ? (
-                  <Navigate to={user.role === 'admin' ? '/admin' : '/dashboard'} />
+                  <Navigate to={user.role === 'superadmin' ? '/directory' : '/my-suc'} />
                 ) : (
                   <Login onLogin={handleLogin} />
                 )
               }
             />
             <Route
-              path="/admin"
+              path="/directory"
               element={
-                user && user.role === 'admin' ? (
-                  <AdminDashboard />
+                user ? (
+                  user.role === 'superadmin' ? (
+                    <SuperadminDashboard user={user} />
+                  ) : user.role === 'admin' ? (
+                    <CommissionerDashboard user={user} initialTab="directory" />
+                  ) : (
+                    <SucDashboard user={user} initialTab="directory" />
+                  )
                 ) : (
                   <Navigate to="/login" />
                 )
@@ -78,7 +85,7 @@ function App() {
             <Route
               path="/admin/users"
               element={
-                user && user.role === 'admin' ? (
+                user && user.role === 'superadmin' ? (
                   <UserManagement />
                 ) : (
                   <Navigate to="/login" />
@@ -86,10 +93,16 @@ function App() {
               }
             />
             <Route
-              path="/dashboard"
+              path="/my-suc"
               element={
-                user && user.role === 'user' ? (
-                  <UserDashboard user={user} />
+                user ? (
+                  user.role === 'admin' ? (
+                    <CommissionerDashboard user={user} initialTab="my-charge" />
+                  ) : user.role === 'user' ? (
+                    <SucDashboard user={user} initialTab="my-institution" />
+                  ) : (
+                    <Navigate to="/directory" />
+                  )
                 ) : (
                   <Navigate to="/login" />
                 )

@@ -31,7 +31,7 @@ function TransferModal({ show, onClose, onSave, suc }) {
   if (!show || !suc) return null;
 
   return (
-    <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+    <div className="modal show d-block" tabIndex="-1" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050, paddingTop: '80px' }}>
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header bg-info text-white">

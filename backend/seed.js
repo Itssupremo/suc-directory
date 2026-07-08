@@ -6,12 +6,12 @@ const User = require('./models/User');
 const Suc = require('./models/Suc');
 
 const users = [
-  { username: 'Admin', password: 'IanGwapo', fullname: 'System Admin', role: 'admin', occCode: '' },
-  { username: 'ocsca', password: 'ocsca123', fullname: 'Chairperson Shirley C. Agrupis', role: 'user', occCode: 'OCSCA' },
-  { username: 'ocdra', password: 'ocdra123', fullname: 'Commissioner Desiderio R. Apag III', role: 'user', occCode: 'OCDRA' },
-  { username: 'ocrpa', password: 'ocrpa123', fullname: 'Commissioner Ricmar P. Aquino', role: 'user', occCode: 'OCRPA' },
-  { username: 'ocmqm', password: 'ocmqm123', fullname: 'Commissioner Myrna Q. Mallari', role: 'user', occCode: 'OCMQM' },
-  { username: 'ocmao', password: 'ocmao123', fullname: 'Commissioner Michelle Aguilar-Ong', role: 'user', occCode: 'OCMAO' },
+  { username: 'Admin', password: 'IanGwapo', fullname: 'System Admin', role: 'superadmin', occCode: '' },
+  { username: 'ocsca', password: 'ocsca123', fullname: 'Chairperson Shirley C. Agrupis', role: 'admin', occCode: 'OCSCA' },
+  { username: 'ocdra', password: 'ocdra123', fullname: 'Commissioner Desiderio R. Apag III', role: 'admin', occCode: 'OCDRA' },
+  { username: 'ocrpa', password: 'ocrpa123', fullname: 'Commissioner Ricmar P. Aquino', role: 'admin', occCode: 'OCRPA' },
+  { username: 'ocmqm', password: 'ocmqm123', fullname: 'Commissioner Myrna Q. Mallari', role: 'admin', occCode: 'OCMQM' },
+  { username: 'ocmao', password: 'ocmao123', fullname: 'Commissioner Michelle Aguilar-Ong', role: 'admin', occCode: 'OCMAO' },
 ];
 
 // Normalize inconsistent region values from the XLSX

@@ -21,8 +21,8 @@ const authenticate = async (req, res, next) => {
 
 // Admin only middleware
 const adminOnly = (req, res, next) => {
-  if (req.user.role !== 'admin') {
-    return res.status(403).json({ message: 'Admin access required' });
+  if (req.user.role !== 'superadmin') {
+    return res.status(403).json({ message: 'Superadmin access required' });
   }
   next();
 };

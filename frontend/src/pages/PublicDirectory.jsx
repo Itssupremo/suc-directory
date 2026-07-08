@@ -28,7 +28,7 @@ function PublicDirectory() {
   const [official, setOfficial] = useState('');
   const [loading, setLoading] = useState(true);
   const [showPrintOpts, setShowPrintOpts] = useState(false);
-  const [viewMode, setViewMode] = useState('grid'); // 'grid' | 'list'
+  const [viewMode, setViewMode] = useState('list'); // 'list' | 'grid'
   
   // Quick View details
   const [selectedSucDetail, setSelectedSucDetail] = useState(null);
@@ -258,19 +258,19 @@ function PublicDirectory() {
             <div className="btn-group shadow-sm me-2" role="group" style={{ borderRadius: '8px', overflow: 'hidden' }}>
               <button 
                 type="button" 
-                className={`btn btn-sm d-flex align-items-center gap-1 ${viewMode === 'grid' ? 'btn-primary' : 'btn-light text-dark'}`}
-                onClick={() => setViewMode('grid')}
-                title="Grid Card View"
-              >
-                <i className="bi bi-grid-3x3-gap-fill"></i>
-              </button>
-              <button 
-                type="button" 
                 className={`btn btn-sm d-flex align-items-center gap-1 ${viewMode === 'list' ? 'btn-primary' : 'btn-light text-dark'}`}
                 onClick={() => setViewMode('list')}
                 title="List Table View"
               >
-                <i className="bi bi-list-task"></i>
+                <i className="bi bi-list-task"></i> List
+              </button>
+              <button 
+                type="button" 
+                className={`btn btn-sm d-flex align-items-center gap-1 ${viewMode === 'grid' ? 'btn-primary' : 'btn-light text-dark'}`}
+                onClick={() => setViewMode('grid')}
+                title="Grid Card View"
+              >
+                <i className="bi bi-grid-3x3-gap-fill"></i> Grid
               </button>
             </div>
 

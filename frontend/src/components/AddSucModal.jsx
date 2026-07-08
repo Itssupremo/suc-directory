@@ -54,8 +54,8 @@ function AddSucModal({ show, onClose, onSave, allowedSections }) {
   if (!show) return null;
 
   return (
-    <div className="modal show d-block" tabIndex="-1" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1050 }}>
-      <div className="modal-dialog modal-lg modal-dialog-scrollable">
+    <div className="modal show d-block" tabIndex="-1" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 2050 }}>
+      <div className="modal-dialog modal-lg modal-dialog-scrollable" style={{ marginTop: '90px' }}>
         <div className="modal-content shadow border-0" style={{ borderRadius: '12px', overflow: 'hidden' }}>
           <div className="modal-header text-white" style={{ background: 'linear-gradient(135deg, var(--ched-navy) 0%, var(--ched-blue) 100%)', borderBottom: '3px solid var(--ched-gold)' }}>
             <h5 className="modal-title font-weight-bold d-flex align-items-center">

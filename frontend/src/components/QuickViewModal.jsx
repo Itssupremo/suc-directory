@@ -45,8 +45,8 @@ Board Sec Contact: ${suc.boardSecretaryContact || '—'}`;
   };
 
   return (
-    <div className="modal show d-block fade-in" tabIndex="-1" role="dialog" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'rgba(14, 19, 41, 0.6)', backdropFilter: 'blur(4px)', zIndex: 1050 }}>
-      <div className="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div className="modal show d-block fade-in" tabIndex="-1" role="dialog" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'rgba(14, 19, 41, 0.6)', backdropFilter: 'blur(4px)', zIndex: 2050 }}>
+      <div className="modal-dialog modal-dialog-scrollable modal-lg" role="document" style={{ marginTop: '90px' }}>
         <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '14px' }}>
           
           {/* Header */}

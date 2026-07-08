@@ -1,8 +1,15 @@
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
 function Header({ user, onLogout }) {
   const location = useLocation();
+  const [mobileOpen, setMobileOpen] = useState(false);
   const isActive = (path) => location.pathname === path ? 'nav-link active' : 'nav-link';
+
+  // Close mobile nav on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [location.pathname]);
 
   return (
     <header className="ocdra-header">
@@ -42,8 +49,7 @@ function Header({ user, onLogout }) {
           <button
             className="btn btn-sm d-md-none btn-header-toggle"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#mobileNav"
+            onClick={() => setMobileOpen(!mobileOpen)}
           >
             <i className="bi bi-list fs-5"></i>
           </button>
@@ -51,7 +57,7 @@ function Header({ user, onLogout }) {
       </div>
 
       {/* Mobile Nav */}
-      <div className="collapse container" id="mobileNav">
+      <div className={`container${mobileOpen ? '' : ' collapse'}`} id="mobileNav">
         <div className="mobile-nav pb-2">
           {!user && <Link className="mobile-nav-link" to="/">HOME</Link>}
           {user && user.role === 'admin' && (

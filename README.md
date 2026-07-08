@@ -32,7 +32,7 @@ Frontend runs on **http://localhost:3000**
 | Role  | Username | Password  |
 |-------|----------|-----------|
 | Admin | admin    | admin123  |
-| User  | user1    | user123   |
+| User  | ocsca    | ocsca123  |
 
 ## Features
 - **Public Page**: View SUC directory (Region, Name, Address, President) with search/filter

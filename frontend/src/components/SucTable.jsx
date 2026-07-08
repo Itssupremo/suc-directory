@@ -194,21 +194,21 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, onView, showActions = fa
 
       <div className="table-responsive" ref={printRef}>
         <table className="table table-bordered table-striped table-hover align-middle mb-0">
-          <thead className="table-primary" style={{ background: 'var(--ched-navy)' }}>
+          <thead className="table-light text-dark" style={{ borderBottom: '3px solid var(--ched-gold)' }}>
             <tr>
-              <th className="py-3 px-3">#</th>
-              <th className="py-3 px-3">Region</th>
-              <th className="py-3 px-3">SUC Name</th>
-              <th className="py-3 px-3">President</th>
+              <th className="py-3 px-3 text-dark fw-bold">#</th>
+              <th className="py-3 px-3 text-dark fw-bold">Region</th>
+              <th className="py-3 px-3 text-dark fw-bold">SUC Name</th>
+              <th className="py-3 px-3 text-dark fw-bold">President</th>
               {showActions && (
                 <>
-                  <th className="py-3 px-2">Email</th>
-                  <th className="py-3 px-2">Contact</th>
-                  <th className="py-3 px-2">Board Secretary</th>
-                  <th className="py-3 px-2">Board Sec Email</th>
-                  <th className="py-3 px-2">Board Sec Contact</th>
-                  <th className="py-3 px-2">CHED Official</th>
-                  <th className="py-3 px-3 text-center">Actions</th>
+                  <th className="py-3 px-2 text-dark fw-bold">Email</th>
+                  <th className="py-3 px-2 text-dark fw-bold">Contact</th>
+                  <th className="py-3 px-2 text-dark fw-bold">Board Secretary</th>
+                  <th className="py-3 px-2 text-dark fw-bold">Board Sec Email</th>
+                  <th className="py-3 px-2 text-dark fw-bold">Board Sec Contact</th>
+                  <th className="py-3 px-2 text-dark fw-bold">CHED Official</th>
+                  <th className="py-3 px-3 text-dark fw-bold text-center">Actions</th>
                 </>
               )}
             </tr>

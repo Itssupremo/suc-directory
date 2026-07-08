@@ -36,7 +36,7 @@ exports.getPublicSucs = async (req, res) => {
   try {
     const { region } = req.query;
     const filter = region ? { region } : {};
-    const sucs = await Suc.find(filter).select('sucName abbreviation region address president occCode chedOfficial');
+    const sucs = await Suc.find(filter).select('sucName abbreviation region address president occCode chedOfficial boardSecretaryName');
     res.json(sortByRegion(sucs));
   } catch (err) {
     res.status(500).json({ message: 'Server error' });

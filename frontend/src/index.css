@@ -27,10 +27,12 @@ body {
   top: 0;
   z-index: 1030;
 }
+
 .header-logo {
   height: 48px;
   width: auto;
 }
+
 .ocdra-header .nav-link {
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.82rem;
@@ -41,18 +43,22 @@ body {
   transition: all 0.2s;
   text-decoration: none;
 }
+
 .ocdra-header .nav-link:hover {
   color: #fff;
   background: rgba(255, 255, 255, 0.08);
 }
+
 .ocdra-header .nav-link.active {
   color: #fff;
   background: rgba(255, 255, 255, 0.12);
 }
+
 .header-user {
   color: rgba(255, 255, 255, 0.7);
   font-size: 0.82rem;
 }
+
 .btn-header-login {
   background: var(--ched-accent);
   color: #fff;
@@ -64,10 +70,12 @@ body {
   border-radius: 6px;
   transition: all 0.2s;
 }
+
 .btn-header-login:hover {
   background: #3a7bc8;
   color: #fff;
 }
+
 .btn-header-logout {
   border: 1px solid rgba(255, 255, 255, 0.3);
   color: rgba(255, 255, 255, 0.8);
@@ -77,19 +85,23 @@ body {
   padding: 5px 14px;
   transition: all 0.2s;
 }
+
 .btn-header-logout:hover {
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
   border-color: rgba(255, 255, 255, 0.5);
 }
+
 .btn-header-toggle {
   color: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
+
 .mobile-nav {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 8px;
 }
+
 .mobile-nav-link {
   display: block;
   color: rgba(255, 255, 255, 0.7);
@@ -100,6 +112,7 @@ body {
   letter-spacing: 0.8px;
   transition: color 0.2s;
 }
+
 .mobile-nav-link:hover {
   color: #fff;
 }
@@ -111,6 +124,7 @@ body {
   text-align: center;
   padding-top: 3rem;
 }
+
 .footer-logos {
   display: flex;
   justify-content: center;
@@ -118,11 +132,13 @@ body {
   gap: 24px;
   margin-bottom: 1.5rem;
 }
+
 .footer-logos img {
   height: 56px;
   width: auto;
   opacity: 0.9;
 }
+
 .footer-title {
   color: #fff;
   font-weight: 700;
@@ -130,6 +146,7 @@ body {
   letter-spacing: 0.5px;
   margin-bottom: 0.5rem;
 }
+
 .footer-desc {
   max-width: 520px;
   margin: 0 auto 1.2rem;
@@ -137,12 +154,14 @@ body {
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.55);
 }
+
 .footer-tags {
   display: flex;
   justify-content: center;
   gap: 10px;
   margin-bottom: 1.5rem;
 }
+
 .footer-tag {
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.15);
@@ -153,9 +172,11 @@ body {
   padding: 4px 14px;
   border-radius: 20px;
 }
+
 .footer-quick {
   margin-bottom: 1.5rem;
 }
+
 .footer-quick h6 {
   color: rgba(255, 255, 255, 0.5);
   font-size: 0.7rem;
@@ -163,19 +184,23 @@ body {
   letter-spacing: 1.5px;
   margin-bottom: 0.6rem;
 }
+
 .footer-quick a {
   color: var(--ched-accent);
   text-decoration: none;
   font-size: 0.85rem;
   transition: color 0.2s;
 }
+
 .footer-quick a:hover {
   color: #fff;
 }
+
 .footer-divider {
   border-color: rgba(255, 255, 255, 0.08);
   margin: 0;
 }
+
 .footer-bottom {
   padding: 1rem 0;
   font-size: 0.78rem;
@@ -194,10 +219,13 @@ body {
   --bs-table-color: #fff !important;
   --bs-table-border-color: rgba(255, 255, 255, 0.12) !important;
 }
+
 .table {
   font-size: 0.88rem;
 }
-.table td, .table th {
+
+.table td,
+.table th {
   padding: 0.55rem 0.75rem;
 }
 
@@ -212,8 +240,13 @@ body {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 .stat-card-interactive {
@@ -430,7 +463,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.06);
 }
 
 /* Tooltip and copy alert notification */
@@ -442,7 +475,7 @@ body {
   color: #fff;
   padding: 10px 20px;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   z-index: 2000;
   font-size: 0.85rem;
   font-weight: 600;
@@ -453,7 +486,13 @@ body {
 }
 
 @keyframes slideUp {
-  from { transform: translateY(100px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
 
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

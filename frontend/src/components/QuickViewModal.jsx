@@ -45,8 +45,8 @@ Board Sec Contact: ${suc.boardSecretaryContact || '—'}`;
   };
 
   return (
-    <div className="modal show d-block fade-in" tabIndex="-1" role="dialog" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'rgba(14, 19, 41, 0.6)', backdropFilter: 'blur(4px)', zIndex: 1050, paddingTop: '80px' }}>
-      <div className="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg" role="document">
+    <div className="modal show d-block fade-in" tabIndex="-1" role="dialog" style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', overflow: 'hidden', backgroundColor: 'rgba(14, 19, 41, 0.6)', backdropFilter: 'blur(4px)', zIndex: 1050 }}>
+      <div className="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div className="modal-content border-0 shadow-lg" style={{ borderRadius: '14px' }}>
           
           {/* Header */}
@@ -63,23 +63,6 @@ Board Sec Contact: ${suc.boardSecretaryContact || '—'}`;
 
           {/* Body */}
           <div className="modal-body p-4" style={{ backgroundColor: 'var(--ched-light)' }}>
-            
-            {/* Profile Health Bar */}
-            <div className="bg-white p-3 rounded-3 shadow-sm mb-4">
-              <div className="d-flex justify-content-between align-items-center mb-2">
-                <span className="small fw-bold text-muted">PROFILE COMPLETENESS SCORE</span>
-                <span className={`completeness-badge ${score === 100 ? 'complete' : 'incomplete'}`}>
-                  <i className={`bi ${score === 100 ? 'bi-patch-check-fill' : 'bi-exclamation-triangle-fill'}`}></i>
-                  {getCompletenessText()}
-                </span>
-              </div>
-              <div className="completeness-progress-container">
-                <div 
-                  className={`completeness-progress-bar ${score === 100 ? 'bg-success' : 'bg-warning'}`}
-                  style={{ width: `${score}%` }}
-                ></div>
-              </div>
-            </div>
 
             <div className="row g-4">
               {/* Left Column: General Info */}
@@ -111,12 +94,7 @@ Board Sec Contact: ${suc.boardSecretaryContact || '—'}`;
                     <p className="small mb-0 text-primary fw-bold">{suc.occCode || '—'}</p>
                   </div>
 
-                  <div className="mb-2">
-                    <label className="text-muted small fw-semibold d-block">SECTION CLASSIFICATION</label>
-                    <span className="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 px-2 py-1">
-                      {suc.section || '—'}
-                    </span>
-                  </div>
+
                 </div>
               </div>
 
@@ -133,41 +111,17 @@ Board Sec Contact: ${suc.boardSecretaryContact || '—'}`;
                       <label className="text-muted small fw-semibold d-block">PRESIDENT / OIC</label>
                       <p className="small mb-1 text-dark fw-bold">{suc.president || '—'}</p>
                     </div>
-                    {suc.email && (
-                      <div className="mb-2">
-                        <label className="text-muted small fw-semibold d-block">EMAIL</label>
-                        <a href={`mailto:${suc.email}`} className="small text-decoration-none">{suc.email}</a>
-                      </div>
-                    )}
-                    {suc.contact && (
-                      <div className="mb-1">
-                        <label className="text-muted small fw-semibold d-block">CONTACT NUMBER</label>
-                        <p className="small mb-0 text-dark fw-medium">{suc.contact || '—'}</p>
-                      </div>
-                    )}
                   </div>
 
                   {/* Board Secretary Card */}
                   <div className="bg-white p-3 rounded-3 shadow-sm flex-grow-1">
                     <h6 className="fw-bold text-primary border-bottom pb-2 mb-3">
-                      <i className="bi bi-people-fill me-2"></i>Board Secretariat
+                      <i className="bi bi-people-fill me-2"></i>Board Secretary
                     </h6>
                     <div className="mb-2">
                       <label className="text-muted small fw-semibold d-block">BOARD SECRETARY</label>
                       <p className="small mb-1 text-dark fw-bold">{suc.boardSecretaryName || '—'}</p>
                     </div>
-                    {suc.boardSecretaryEmail && (
-                      <div className="mb-2">
-                        <label className="text-muted small fw-semibold d-block">EMAIL</label>
-                        <a href={`mailto:${suc.boardSecretaryEmail}`} className="small text-decoration-none">{suc.boardSecretaryEmail}</a>
-                      </div>
-                    )}
-                    {suc.boardSecretaryContact && (
-                      <div className="mb-1">
-                        <label className="text-muted small fw-semibold d-block">CONTACT NUMBER</label>
-                        <p className="small mb-0 text-dark fw-medium">{suc.boardSecretaryContact || '—'}</p>
-                      </div>
-                    )}
                   </div>
 
                 </div>

@@ -12,6 +12,8 @@ function EditSucModal({ show, onClose, onSave, suc, allowedSections }) {
   });
   const [contactsList, setContactsList] = useState(['']);
   const [boardSecContactsList, setBoardSecContactsList] = useState(['']);
+  const [emailsList, setEmailsList] = useState(['']);
+  const [boardSecEmailsList, setBoardSecEmailsList] = useState(['']);
 
   useEffect(() => {
     getOccOfficials().then((res) => setOfficials(res.data)).catch(() => {});
@@ -40,6 +42,13 @@ function EditSucModal({ show, onClose, onSave, suc, allowedSections }) {
 
       const bList = (suc.boardSecretaryContact || '').split(/[,\/;]+/).map(s => s.trim()).filter(Boolean);
       setBoardSecContactsList(bList.length > 0 ? bList : ['']);
+
+      // Parse emails
+      const eList = (suc.email || '').split(/[,\/;]+/).map(s => s.trim()).filter(Boolean);
+      setEmailsList(eList.length > 0 ? eList : ['']);
+
+      const bEList = (suc.boardSecretaryEmail || '').split(/[,\/;]+/).map(s => s.trim()).filter(Boolean);
+      setBoardSecEmailsList(bEList.length > 0 ? bEList : ['']);
     }
   }, [suc]);
 
@@ -59,6 +68,8 @@ function EditSucModal({ show, onClose, onSave, suc, allowedSections }) {
     e.preventDefault();
     onSave(suc._id, {
       ...form,
+      email: emailsList.map(s => s.trim()).filter(Boolean).join(', '),
+      boardSecretaryEmail: boardSecEmailsList.map(s => s.trim()).filter(Boolean).join(', '),
       contact: contactsList.map(s => s.trim()).filter(Boolean).join(', '),
       boardSecretaryContact: boardSecContactsList.map(s => s.trim()).filter(Boolean).join(', ')
     });
@@ -119,10 +130,51 @@ function EditSucModal({ show, onClose, onSave, suc, allowedSections }) {
                     <label className="form-label fw-semibold">President Name</label>
                     <input name="president" className="form-control" value={form.president} onChange={handleChange} />
                   </div>
+                  
+                  {/* President Emails */}
                   <div className="col-md-4">
-                    <label className="form-label fw-semibold">President Email</label>
-                    <input name="email" type="email" className="form-control" value={form.email} onChange={handleChange} />
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <label className="form-label fw-semibold mb-0">President Email</label>
+                      <button 
+                        type="button" 
+                        className="btn btn-sm btn-outline-primary py-0 px-2 fw-semibold"
+                        style={{ fontSize: '0.72rem', borderRadius: '4px' }}
+                        onClick={() => setEmailsList([...emailsList, ''])}
+                      >
+                        <i className="bi bi-plus-lg me-1"></i>Add
+                      </button>
+                    </div>
+                    {emailsList.map((eVal, idx) => (
+                      <div key={idx} className="input-group mb-2">
+                        <span className="input-group-text bg-light text-muted" style={{ fontSize: '0.8rem' }}>#{idx+1}</span>
+                        <input
+                          type="email"
+                          className="form-control text-sm"
+                          value={eVal}
+                          placeholder="Email Address"
+                          onChange={(e) => {
+                            const newList = [...emailsList];
+                            newList[idx] = e.target.value;
+                            setEmailsList(newList);
+                          }}
+                        />
+                        {emailsList.length > 1 && (
+                          <button
+                            type="button"
+                            className="btn btn-outline-danger d-flex align-items-center justify-content-center"
+                            onClick={() => {
+                              const newList = emailsList.filter((_, i) => i !== idx);
+                              setEmailsList(newList.length > 0 ? newList : ['']);
+                            }}
+                          >
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        )}
+                      </div>
+                    ))}
                   </div>
+
+                  {/* President Contacts */}
                   <div className="col-md-4">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <label className="form-label fw-semibold mb-0">President Contact</label>
@@ -177,10 +229,51 @@ function EditSucModal({ show, onClose, onSave, suc, allowedSections }) {
                     <label className="form-label fw-semibold">Board Secretary</label>
                     <input name="boardSecretaryName" className="form-control" value={form.boardSecretaryName} onChange={handleChange} />
                   </div>
+
+                  {/* Board Sec Emails */}
                   <div className="col-md-4">
-                    <label className="form-label fw-semibold">Board Sec. Email</label>
-                    <input name="boardSecretaryEmail" type="email" className="form-control" value={form.boardSecretaryEmail} onChange={handleChange} />
+                    <div className="d-flex justify-content-between align-items-center mb-2">
+                      <label className="form-label fw-semibold mb-0">Board Sec. Email</label>
+                      <button 
+                        type="button" 
+                        className="btn btn-sm btn-outline-primary py-0 px-2 fw-semibold"
+                        style={{ fontSize: '0.72rem', borderRadius: '4px' }}
+                        onClick={() => setBoardSecEmailsList([...boardSecEmailsList, ''])}
+                      >
+                        <i className="bi bi-plus-lg me-1"></i>Add
+                      </button>
+                    </div>
+                    {boardSecEmailsList.map((eVal, idx) => (
+                      <div key={idx} className="input-group mb-2">
+                        <span className="input-group-text bg-light text-muted" style={{ fontSize: '0.8rem' }}>#{idx+1}</span>
+                        <input
+                          type="email"
+                          className="form-control text-sm"
+                          value={eVal}
+                          placeholder="Email Address"
+                          onChange={(e) => {
+                            const newList = [...boardSecEmailsList];
+                            newList[idx] = e.target.value;
+                            setBoardSecEmailsList(newList);
+                          }}
+                        />
+                        {boardSecEmailsList.length > 1 && (
+                          <button
+                            type="button"
+                            className="btn btn-outline-danger d-flex align-items-center justify-content-center"
+                            onClick={() => {
+                              const newList = boardSecEmailsList.filter((_, i) => i !== idx);
+                              setBoardSecEmailsList(newList.length > 0 ? newList : ['']);
+                            }}
+                          >
+                            <i className="bi bi-trash"></i>
+                          </button>
+                        )}
+                      </div>
+                    ))}
                   </div>
+
+                  {/* Board Sec Contacts */}
                   <div className="col-md-4">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <label className="form-label fw-semibold mb-0">Board Sec. Contact</label>

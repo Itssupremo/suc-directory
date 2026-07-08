@@ -93,38 +93,53 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
     <div>
       {/* Toolbar: search, filter, print */}
       {showActions && (
-        <div className="d-flex flex-wrap gap-2 align-items-center p-3 pb-2">
-          <input
-            type="text"
-            className="form-control form-control-sm"
-            style={{ maxWidth: 260 }}
-            placeholder="Search SUC, president, region..."
-            value={search || ''}
-            onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
-          />
-          <select
-            className="form-select form-select-sm"
-            style={{ maxWidth: 260 }}
-            value={officialFilter || ''}
-            onChange={(e) => onOfficialFilterChange && onOfficialFilterChange(e.target.value)}
-          >
-            <option value="">All CHED Officials</option>
-            {(officials || []).map((o) => (
-              <option key={o.code} value={o.code}>{o.name}</option>
-            ))}
-          </select>
+        <div className="d-flex flex-wrap gap-3 align-items-center p-3 bg-light border-bottom">
+          {/* Search Box */}
+          <div className="input-group shadow-sm" style={{ maxWidth: 320, borderRadius: '8px', overflow: 'hidden' }}>
+            <span className="input-group-text bg-white border-end-0 text-muted">
+              <i className="bi bi-search"></i>
+            </span>
+            <input
+              type="text"
+              className="form-control border-start-0 ps-1"
+              placeholder="Search SUC, president, region..."
+              value={search || ''}
+              onChange={(e) => onSearchChange && onSearchChange(e.target.value)}
+            />
+          </div>
+
+          {/* Official Filter */}
+          {onOfficialFilterChange && (
+            <div className="input-group shadow-sm" style={{ maxWidth: 280, borderRadius: '8px', overflow: 'hidden' }}>
+              <span className="input-group-text bg-white border-end-0 text-muted">
+                <i className="bi bi-funnel"></i>
+              </span>
+              <select
+                className="form-select border-start-0 ps-1"
+                value={officialFilter || ''}
+                onChange={(e) => onOfficialFilterChange && onOfficialFilterChange(e.target.value)}
+              >
+                <option value="">All CHED Officials</option>
+                {(officials || []).map((o) => (
+                  <option key={o.code} value={o.code}>{o.name}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          {/* Action Buttons */}
           <div className="ms-auto d-flex gap-2 position-relative">
-            <button className="btn btn-sm btn-outline-success" onClick={handleDownloadExcel}>
-              <i className="bi bi-file-earmark-excel me-1"></i>Excel
+            <button className="btn btn-outline-success d-flex align-items-center shadow-sm px-3" onClick={handleDownloadExcel} style={{ borderRadius: '8px', fontWeight: 600 }}>
+              <i className="bi bi-file-earmark-excel me-2"></i>Export Excel
             </button>
-            <button className="btn btn-sm btn-outline-secondary" onClick={() => setShowPrintOpts(!showPrintOpts)}>
-              <i className="bi bi-printer me-1"></i>Print
+            <button className="btn btn-outline-secondary d-flex align-items-center shadow-sm px-3" onClick={() => setShowPrintOpts(!showPrintOpts)} style={{ borderRadius: '8px', fontWeight: 600 }}>
+              <i className="bi bi-printer me-2"></i>Print
             </button>
             {showPrintOpts && (
-              <div className="position-absolute end-0 mt-1 p-3 bg-white border rounded shadow-sm" style={{ zIndex: 1050, minWidth: 220 }}>
-                <h6 className="mb-2" style={{ fontSize: '0.82rem' }}>Select columns to print:</h6>
+              <div className="position-absolute end-0 mt-2 p-3 bg-white border rounded-3 shadow-lg" style={{ zIndex: 1050, minWidth: 240 }}>
+                <h6 className="mb-2 fw-bold text-dark" style={{ fontSize: '0.82rem' }}>Select columns to print:</h6>
                 {ALL_COLUMNS.map((col) => (
-                  <div key={col.key} className="form-check">
+                  <div key={col.key} className="form-check my-1">
                     <input
                       className="form-check-input"
                       type="checkbox"
@@ -132,14 +147,14 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
                       checked={printCols.includes(col.key)}
                       onChange={() => togglePrintCol(col.key)}
                     />
-                    <label className="form-check-label small" htmlFor={`print-${col.key}`}>{col.label}</label>
+                    <label className="form-check-label small fw-medium" htmlFor={`print-${col.key}`}>{col.label}</label>
                   </div>
                 ))}
-                <div className="d-flex gap-2 mt-2">
-                  <button className="btn btn-sm btn-primary flex-grow-1" onClick={handlePrint}>
-                    <i className="bi bi-printer me-1"></i>Print
+                <div className="d-flex gap-2 mt-3">
+                  <button className="btn btn-primary btn-sm flex-grow-1 fw-semibold" onClick={handlePrint}>
+                    Print Directory
                   </button>
-                  <button className="btn btn-sm btn-outline-secondary" onClick={() => setShowPrintOpts(false)}>Cancel</button>
+                  <button className="btn btn-outline-secondary btn-sm" onClick={() => setShowPrintOpts(false)}>Cancel</button>
                 </div>
               </div>
             )}
@@ -148,22 +163,22 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
       )}
 
       <div className="table-responsive" ref={printRef}>
-        <table className="table table-bordered table-striped table-hover align-middle">
-          <thead className="table-primary">
+        <table className="table table-bordered table-striped table-hover align-middle mb-0">
+          <thead className="table-primary" style={{ background: 'var(--ched-navy)' }}>
             <tr>
-              <th>#</th>
-              <th>Region</th>
-              <th>SUC Name</th>
-              <th>President</th>
+              <th className="py-3 px-3">#</th>
+              <th className="py-3 px-3">Region</th>
+              <th className="py-3 px-3">SUC Name</th>
+              <th className="py-3 px-3">President</th>
               {showActions && (
                 <>
-                  <th>Email</th>
-                  <th>Contact</th>
-                  <th>Board Secretary</th>
-                  <th>Board Sec Email</th>
-                  <th>Board Sec Contact</th>
-                  <th>CHED Official</th>
-                  <th>Actions</th>
+                  <th className="py-3 px-2">Email</th>
+                  <th className="py-3 px-2">Contact</th>
+                  <th className="py-3 px-2">Board Secretary</th>
+                  <th className="py-3 px-2">Board Sec Email</th>
+                  <th className="py-3 px-2">Board Sec Contact</th>
+                  <th className="py-3 px-2">CHED Official</th>
+                  <th className="py-3 px-3 text-center">Actions</th>
                 </>
               )}
             </tr>
@@ -171,44 +186,45 @@ function SucTable({ sucs, onEdit, onDelete, onTransfer, showActions = false, isA
           <tbody>
             {sucs.length === 0 ? (
               <tr>
-                <td colSpan={showActions ? 11 : 4} className="text-center text-muted">
-                  No records found
+                <td colSpan={showActions ? 11 : 4} className="text-center text-muted py-4">
+                  <i className="bi bi-inbox fs-3 d-block mb-2"></i>
+                  No SUC records found
                 </td>
               </tr>
             ) : (
               sucs.map((suc, idx) => (
                 <tr key={suc._id}>
-                  <td>{idx + 1}</td>
-                  <td>{suc.region}</td>
-                  <td>
-                    <strong>{suc.sucName}</strong>
-                    {suc.abbreviation && <span className="text-muted ms-1">({suc.abbreviation})</span>}
-                    {suc.address && <div className="text-muted small">{suc.address}</div>}
+                  <td className="px-3 fw-bold text-muted">{idx + 1}</td>
+                  <td className="px-3"><span className="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 px-2 py-1">{suc.region}</span></td>
+                  <td className="px-3">
+                    <strong className="text-dark">{suc.sucName}</strong>
+                    {suc.abbreviation && <span className="badge bg-primary bg-opacity-10 text-primary ms-2">{suc.abbreviation}</span>}
+                    {suc.address && <div className="text-muted small mt-1"><i className="bi bi-geo-alt me-1"></i>{suc.address}</div>}
                   </td>
-                  <td>{suc.president}</td>
+                  <td className="px-3 fw-medium">{suc.president || '—'}</td>
                   {showActions && (
                     <>
-                      <td className="small">{suc.email}</td>
-                      <td className="small">{suc.contact}</td>
-                      <td className="small">{suc.boardSecretaryName}</td>
-                      <td className="small">{suc.boardSecretaryEmail}</td>
-                      <td className="small">{suc.boardSecretaryContact}</td>
-                      <td className="small">{suc.chedOfficial}</td>
-                      <td>
-                        <div className="d-flex gap-1">
+                      <td className="small px-2 text-wrap" style={{ maxWidth: '140px' }}>{suc.email || '—'}</td>
+                      <td className="small px-2">{suc.contact || '—'}</td>
+                      <td className="small px-2 fw-medium">{suc.boardSecretaryName || '—'}</td>
+                      <td className="small px-2 text-wrap" style={{ maxWidth: '140px' }}>{suc.boardSecretaryEmail || '—'}</td>
+                      <td className="small px-2">{suc.boardSecretaryContact || '—'}</td>
+                      <td className="small px-2 fw-bold text-primary">{suc.chedOfficial || '—'}</td>
+                      <td className="px-3">
+                        <div className="d-flex gap-1 justify-content-center">
                           {onEdit && (
-                            <button className="btn btn-sm btn-warning" title="Edit" onClick={() => onEdit(suc)}>
-                              <i className="bi bi-pencil-square"></i>
+                            <button className="btn btn-sm btn-outline-warning d-flex align-items-center justify-content-center p-2" title="Edit" onClick={() => onEdit(suc)} style={{ borderRadius: '6px' }}>
+                              <i className="bi bi-pencil-square fs-6"></i>
                             </button>
                           )}
                           {isAdmin && onDelete && (
-                            <button className="btn btn-sm btn-danger" title="Delete" onClick={() => onDelete(suc._id)}>
-                              <i className="bi bi-trash"></i>
+                            <button className="btn btn-sm btn-outline-danger d-flex align-items-center justify-content-center p-2" title="Delete" onClick={() => onDelete(suc._id)} style={{ borderRadius: '6px' }}>
+                              <i className="bi bi-trash fs-6"></i>
                             </button>
                           )}
                           {isAdmin && onTransfer && (
-                            <button className="btn btn-sm btn-info" title="Transfer" onClick={() => onTransfer(suc)}>
-                              <i className="bi bi-arrow-left-right"></i>
+                            <button className="btn btn-sm btn-outline-info d-flex align-items-center justify-content-center p-2" title="Transfer" onClick={() => onTransfer(suc)} style={{ borderRadius: '6px' }}>
+                              <i className="bi bi-arrow-left-right fs-6"></i>
                             </button>
                           )}
                         </div>
